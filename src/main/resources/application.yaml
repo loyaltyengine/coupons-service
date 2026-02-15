@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: couponservice
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/
+      auto-index-creation: true
