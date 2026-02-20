@@ -1,15 +1,21 @@
 package org.loyaltyengine.couponservice.common.exceptions;
 
+import org.loyaltyengine.openapi.model.ErrorType;
+
+import java.util.List;
+
+import org.loyaltyengine.openapi.model.ErrorDetail;
 import lombok.Getter;
-import org.loyaltyengine.coupons_service.shared.enums.ErrorType;
 
 @Getter
-public class BadRequestException extends RuntimeException {
-    private final ErrorType errorType;
+public class BadRequestException extends ApiException {
 
-    public BadRequestException( ErrorType errorType, String message) {
-        this.errorType = errorType;
-        super(message);
+    public BadRequestException(ErrorType errorType, String message, String description) {
+        super(errorType, message, description);
     }
 
+    public BadRequestException(ErrorType errorType, String message, String description,
+            List<ErrorDetail> details) {
+        super(errorType, message, description, details);
+    }
 }

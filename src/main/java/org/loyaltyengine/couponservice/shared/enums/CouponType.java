@@ -16,7 +16,7 @@ public enum CouponType {
         this.value = value;
     }
 
-    public static CouponType getTypeFromValue(final String value) {
+    public static CouponType fromValue(final String value) {
         for (CouponType couponType : CouponType.values()) {
             if (couponType.value.equals(value)) {
                 return couponType;

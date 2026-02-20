@@ -179,11 +179,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/CreateFixedAmountCouponRequest'
-                - $ref: '#/components/schemas/CreatePercentageCouponRequest'
-                - $ref: '#/components/schemas/CreateFreeProductCouponRequest'
-                - $ref: '#/components/schemas/CreateFreeShippingCouponRequest'
+              $ref: '#/components/schemas/BaseCreateCouponRequest'
       responses:
         '201':
           $ref: '#/components/responses/CreateCouponResponse'
@@ -466,24 +462,26 @@ components:
             error: internal_server_error
             description: An unexpected condition has occurred.
   schemas:
-    CreateCouponRequest:
+    BaseCreateCouponRequest:
       type: object
       discriminator:
         propertyName: couponType
         mapping:
-          fixed_amount: '#/components/schemas/CreateFixedAmountCouponRequest'
           free_product: '#/components/schemas/CreateFreeProductCouponRequest'
           percentage: '#/components/schemas/CreatePercentageCouponRequest'
+          fixed_amount: '#/components/schemas/CreateFixedAmountCouponRequest'
           free_shipping: '#/components/schemas/CreateFreeShippingCouponRequest'
       properties:
         couponType:
           $ref: '#/components/schemas/CouponType'
+        campaignId:
+          $ref: '#/components/schemas/CampaignId'
         description:
           $ref: '#/components/schemas/Description'
-        usage:
-          $ref: '#/components/schemas/CouponUsage'
-        multiUser:
-          $ref: '#/components/schemas/MultiUser'
+        usageLimit:
+          $ref: '#/components/schemas/UsageLimit'
+        isMultiUser:
+          $ref: '#/components/schemas/IsMultiUser'
         eligible:
           $ref: '#/components/schemas/Eligible'
         expireAt:
@@ -493,40 +491,48 @@ components:
       required:
         - couponType
         - description
+
     CreateFreeProductCouponRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCouponRequest'
+        - $ref: '#/components/schemas/BaseCreateCouponRequest'
         - type: object
           properties:
-            freeProducts:
+            products:
               type: array
               items:
                 $ref: '#/components/schemas/Product'
               minItems: 1
           required:
-            - freeProducts
+            - couponType
+            - products
+
     CreatePercentageCouponRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCouponRequest'
+        - $ref: '#/components/schemas/BaseCreateCouponRequest'
         - type: object
           properties:
             percentage:
               $ref: '#/components/schemas/Percentage'
           required:
+            - couponType
             - percentage
+
     CreateFixedAmountCouponRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCouponRequest'
+        - $ref: '#/components/schemas/BaseCreateCouponRequest'
         - type: object
           properties:
             amount:
               $ref: '#/components/schemas/Amount'
           required:
+            - couponType
             - amount
+
     CreateFreeShippingCouponRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCouponRequest'
+        - $ref: '#/components/schemas/BaseCreateCouponRequest'
         - type: object
+
     CreateCouponResponse:
       allOf:
         - $ref: '#/components/schemas/Response'
@@ -534,6 +540,7 @@ components:
           properties:
             coupon:
               $ref: '#/components/schemas/Coupon'
+    
     ListCouponsResponse:
       allOf:
         - $ref: '#/components/schemas/Response'
@@ -570,11 +577,11 @@ components:
         propertyName: couponType
         mapping:
           fixed_amount: '#/components/schemas/FixedAmountRedemption'
-          percentage: '#/components/schemas/PercentageRedemption'
           free_product: '#/components/schemas/FreeProductRedemption'
           free_shipping: '#/components/schemas/FreeShippingRedemption'
+          percentage: '#/components/schemas/PercentageRedemption'
       properties:
-        code:
+        couponCode:
           $ref: '#/components/schemas/CouponCode'
         propertyId:
           $ref: '#/components/schemas/PropertyId'
@@ -590,10 +597,8 @@ components:
           type: string
           format: date-time
           description: When the coupon was redeemed
-        discount:
-          $ref: '#/components/schemas/Amount'
       required:
-        - code
+        - couponCode
         - propertyId
         - ownedByCustomerId
         - redeemedByCustomerId
@@ -618,7 +623,7 @@ components:
         - $ref: '#/components/schemas/Redemption'
         - type: object
           properties:
-            freeProducts:
+            products:
               type: array
               items:
                 $ref: '#/components/schemas/Product'
@@ -631,12 +636,12 @@ components:
       discriminator:
         propertyName: couponType
         mapping:
-          fixed_amount: '#/components/schemas/FixedAmountCoupon'
-          percentage: '#/components/schemas/PercentageCoupon'
           free_product: '#/components/schemas/FreeProductCoupon'
+          percentage: '#/components/schemas/PercentageCoupon'
+          fixed_amount: '#/components/schemas/FixedAmountCoupon'
           free_shipping: '#/components/schemas/FreeShippingCoupon'
       properties:
-        code:
+        couponCode:
           $ref: '#/components/schemas/CouponCode'
         propertyId:
           $ref: '#/components/schemas/PropertyId'
@@ -648,8 +653,8 @@ components:
           $ref: '#/components/schemas/CouponUsage'
         description:
           $ref: '#/components/schemas/Description'
-        multiUser:
-          $ref: '#/components/schemas/MultiUser'
+        isMultiUser:
+          $ref: '#/components/schemas/IsMultiUser'
         eligible:
           $ref: '#/components/schemas/Eligible'
         expireAt:
@@ -660,10 +665,8 @@ components:
           type: string
           format: date-time
           description: When the coupon was created
-        status:
-          $ref: '#/components/schemas/CouponStatus'
       required:
-        - code
+        - couponCode
         - propertyId
         - customerId
         - couponType
@@ -677,6 +680,10 @@ components:
           properties:
             amount:
               $ref: '#/components/schemas/Amount'
+            applyToProductsIds:
+              type: array
+              items:
+                 type: string
           required:
             - amount
     PercentageCoupon:
@@ -686,6 +693,10 @@ components:
           properties:
             percentage:
               $ref: '#/components/schemas/Percentage'
+            applyToProductsIds:
+              type: array
+              items:
+                 type: string
           required:
             - percentage
     FreeProductCoupon:
@@ -693,7 +704,7 @@ components:
         - $ref: '#/components/schemas/Coupon'
         - type: object
           properties:
-            freeProducts:
+            products:
               type: array
               items:
                 $ref: '#/components/schemas/Product'
@@ -846,7 +857,7 @@ components:
       description: |
         Coupon currency. ISO 4217 currency code.
       example: USD
-    MultiUser:
+    IsMultiUser:
       type: boolean
       default: false
       description: |
@@ -933,6 +944,8 @@ components:
       type: string
       enum:
         - invalid_request
+        - invalid_coupon
+        - redemption_validation_error
         - unauthorized
         - forbidden
         - not_found
@@ -956,13 +969,16 @@ components:
             details:
               type: array
               items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                    description: The field related to the error
-                  issue:
-                    type: string
-                    description: A description of the issue with the field
+                $ref: '#/components/schemas/ErrorDetail'
+
           required:
             - error
+    ErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+          description: The field related to the error
+        issue:
+          type: string
+          description: A description of the issue with the field

@@ -5,11 +5,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class Eligible {
+@Getter
+public class Cart {
+	private List<Product> products;
 	private List<String> productIds;
 	private List<String> categoryIds;
-	private Amount minimumAmount;
-	private List<Product> products;
+	private Amount amount;
+
 }

@@ -1,5 +1,13 @@
 package org.loyaltyengine.couponservice.modules.coupons.dtos;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.loyaltyengine.couponservice.shared.models.Amount;
+import org.loyaltyengine.couponservice.shared.models.Eligible;
+import org.loyaltyengine.couponservice.shared.models.Product;
+import org.loyaltyengine.couponservice.shared.models.Usage;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +15,17 @@ import lombok.Setter;
 @Setter
 public class CreateCouponDto {
     private String propertyId;
+    private String campaignId;
     private String customerId;
-    private String couponCode;
+    private String couponType;
+    private String description;
+    private Integer usageLimit;
+    private Boolean isMultiUser;
+    private Eligible eligible;
+    private LocalDateTime expireAt;
+    private LocalDateTime validFrom;
+    private String prefix;
+    private Amount amount;
+    private List<Product> products;
+    private Integer percentage;
 }

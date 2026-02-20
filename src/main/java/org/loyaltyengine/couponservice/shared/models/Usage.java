@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Usage {
     private Integer limit;
-    private Integer used;
+    private Integer balance;
 }

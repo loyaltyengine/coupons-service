@@ -1,13 +1,13 @@
 package org.loyaltyengine.couponservice.modules.coupons.services;
 
-import org.loyaltyengine.coupons_service.modules.coupons.dtos.CouponDto;
-import org.loyaltyengine.coupons_service.modules.coupons.dtos.CreateCouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 
 public interface CouponService {
 
     /**
      * Create a new coupon
-     * @param createCouponDto
+     * @param createCouponDto coupon dto
      * @return CouponDto
      */
     public CouponDto createCoupon(CreateCouponDto createCouponDto);
@@ -18,7 +18,7 @@ public interface CouponService {
      * @param couponCode
      * @return CouponDto
      */
-    public CouponDto getPropertyCoupon(String propertyId, String couponCode);
+    public CouponDto getValidPropertyCoupon(String propertyId, String couponCode);
 
     /**
      * Get a coupon by propertyId, customerId and couponCode
@@ -27,5 +27,7 @@ public interface CouponService {
      * @param couponCode
      * @return CouponDto
      */
-    public  CouponDto getCustomerCoupon(String propertyId, String customerId, String couponCode);
+    public  CouponDto getValidCustomerCoupon(String propertyId, String customerId, String couponCode);
+
+    public void updateCouponUsage(CouponDto couponDto);
 }

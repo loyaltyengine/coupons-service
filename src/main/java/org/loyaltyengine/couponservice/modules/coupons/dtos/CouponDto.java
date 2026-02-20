@@ -1,18 +1,38 @@
 package org.loyaltyengine.couponservice.modules.coupons.dtos;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.loyaltyengine.couponservice.shared.models.Amount;
+import org.loyaltyengine.couponservice.shared.models.Eligible;
+import org.loyaltyengine.couponservice.shared.models.Product;
+import org.loyaltyengine.couponservice.shared.models.Usage;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 public class CouponDto {
+    private String id;
     private String propertyId;
     private String customerId;
     private String couponCode;
-    private  Boolean isActive;
-    private Boolean isMultiUser;
     private String couponType;
+    private Usage usage;
     private String description;
+    private Boolean isMultiUser;
+    private Eligible eligible;
+    private LocalDateTime expireAt;
+    private LocalDateTime validFrom;
+    private LocalDateTime createdAt;
+    private Amount amount;
+    private Integer percentage;
+    private String campaignId;
+    private String prefix;
+    private Boolean isActive;
+    private List<Product> products;
 }

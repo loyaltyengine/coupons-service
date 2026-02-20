@@ -5,8 +5,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @EnableMongoRepositories(basePackages={
-        "org.loyaltyengine.coupons_service.modules.coupons.repositories",
-        "org.loyaltyengine.coupons_service.modules.redemptions.repositories"
+        "org.loyaltyengine.couponservice.modules.coupons.repositories",
+        "org.loyaltyengine.couponservice.modules.redemptions.repositories"
 })
 public class MongoConfig {
 

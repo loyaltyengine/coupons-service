@@ -1,0 +1,82 @@
+package org.loyaltyengine.couponservice.modules.coupons.mappers;
+
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
+import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
+import org.loyaltyengine.openapi.model.CouponType;
+import org.loyaltyengine.openapi.model.CreateCouponResponse;
+import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
+import org.loyaltyengine.openapi.model.CreateFreeProductCouponRequest;
+import org.loyaltyengine.openapi.model.CreateFreeShippingCouponRequest;
+import org.loyaltyengine.openapi.model.CreatePercentageCouponRequest;
+import org.loyaltyengine.openapi.model.FixedAmountCoupon;
+import org.loyaltyengine.openapi.model.FreeProductCoupon;
+import org.loyaltyengine.openapi.model.FreeShippingCoupon;
+import org.loyaltyengine.openapi.model.PercentageCoupon;
+import org.loyaltyengine.couponservice.config.SharedMapperConfig;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+
+@Mapper(config = SharedMapperConfig.class)
+public interface CouponMapper {
+
+    CouponDto toDto(Coupon coupon);
+
+    Coupon toEntity(CouponDto couponDto);
+
+    @Mapping(source = "usageLimit", target = "usage.balance")
+    @Mapping(source = "usageLimit", target = "usage.limit")
+    Coupon toEntity(CreateCouponDto createCouponDto);
+
+    default CreateCouponDto toCreateCouponDto(BaseCreateCouponRequest request) {
+        if (request == null)
+            return null;
+
+        if (request instanceof CreatePercentageCouponRequest req) {
+            return mapPercentage(req);
+        } else if (request instanceof CreateFixedAmountCouponRequest req) {
+            return mapFixedAmount(req);
+        } else if (request instanceof CreateFreeProductCouponRequest req) {
+            return mapFreeProduct(req);
+        } else if (request instanceof CreateFreeShippingCouponRequest req) {
+            return mapFreeShipping(req);
+        }
+
+        return null;
+    }
+
+    CreateCouponDto mapFreeProduct(CreateFreeProductCouponRequest request);
+
+    CreateCouponDto mapPercentage(CreatePercentageCouponRequest request);
+
+    CreateCouponDto mapFixedAmount(CreateFixedAmountCouponRequest request);
+
+    CreateCouponDto mapFreeShipping(CreateFreeShippingCouponRequest request);
+
+    @Mapping(source = "dto", target = "coupon")
+    CreateCouponResponse toCreateCouponResponse(CouponDto dto);
+
+    default org.loyaltyengine.openapi.model.Coupon mapToOpenApiCoupon(CouponDto dto) {
+        if (dto == null || dto.getCouponType() == null)
+            return null;
+
+        return switch (dto.getCouponType().toLowerCase()) {
+            case "percentage" -> toPercentageApi(dto);
+            case "fixed_amount" -> toFixedAmountApi(dto);
+            case "free_product" -> toFreeProductApi(dto);
+            case "free_shipping" -> toFreeShippingApi(dto);
+            default -> toFixedAmountApi(dto);
+        };
+    }
+
+    FreeProductCoupon toFreeProductApi(CouponDto dto);
+
+    PercentageCoupon toPercentageApi(CouponDto dto);
+
+    FixedAmountCoupon toFixedAmountApi(CouponDto dto);
+
+    FreeShippingCoupon toFreeShippingApi(CouponDto dto);
+
+}
