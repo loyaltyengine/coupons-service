@@ -84,8 +84,7 @@ public class CouponServiceImpl implements CouponService {
     public CouponDto getActiveCustomerCoupon(String propertyId, String customerId, String couponCode) {
         log.info("Getting valid coupon for property: {}, customer: {} and code: {}", propertyId, customerId,
                 couponCode);
-        Coupon coupon = couponRepository.findByPropertyIdAndCustomerIdAndCouponCodeAndIsActive(propertyId,
-                customerId, couponCode, true)
+        Coupon coupon = couponRepository.findActiveCoupon(propertyId, customerId, couponCode)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND, "Coupon not found",
                         "No valid coupon of code: " + couponCode + " for property: " + propertyId));
 
@@ -95,7 +94,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponDto getActivePropertyCoupon(String propertyId, String couponCode) {
         log.info("Getting valid coupon for property: {} and code: {}", propertyId, couponCode);
-        Coupon coupon = couponRepository.findByPropertyIdAndCouponCodeAndIsActive(propertyId, couponCode, true)
+        Coupon coupon = couponRepository.findActiveCoupon(propertyId, couponCode)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND, "Coupon not found",
                         "No valid coupon of code: " + couponCode + " for property: " + propertyId));
 
@@ -122,12 +121,7 @@ public class CouponServiceImpl implements CouponService {
         Pageable pageable = buildValidPageable(query);
 
         // Get coupons
-        Page<Coupon> couponsPage = couponRepository
-                .findByPropertyIdAndCustomerIdAndIsActive(
-                        propertyId,
-                        customerId,
-                        true,
-                        pageable);
+        Page<Coupon> couponsPage = couponRepository.findActiveCoupons(propertyId, customerId, pageable);
 
         // Map to dto
         return CouponsResultDto.builder()
@@ -143,17 +137,27 @@ public class CouponServiceImpl implements CouponService {
                 .build();
     }
 
+    @Override
+    public void cleanIanctiveCoupons() {
+        log.info("Cleaning inactive coupons");
+        couponRepository.deleteInactiveCoupons();
+    }
+
     private Pageable buildValidPageable(PaginationQueryDto dto) {
         int size = dto.getSize() < 0 || dto.getSize() > SharedConstants.MAX_PAGE_SIZE ? SharedConstants.MAX_PAGE_SIZE
                 : dto.getSize();
         int page = dto.getPage() < SharedConstants.MIN_PAGE_SIZE ? SharedConstants.MIN_PAGE_SIZE : dto.getPage();
+
         String sort = CouponSortField.fromValue(dto.getSort()).getValue();
         String order = SortOrder.fromValue(dto.getOrder()).getValue();
+        Sort.Direction direction = dto.getOrder().equalsIgnoreCase(order)
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
 
         return PageRequest.of(
                 page,
                 size,
-                Sort.by(order, sort));
+                Sort.by(direction, sort));
     }
 
 }
