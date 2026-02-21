@@ -1,20 +1,28 @@
 package org.loyaltyengine.couponservice.modules.coupons.services;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
 import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponsResultDto;
 import org.loyaltyengine.couponservice.modules.coupons.mappers.CouponMapper;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
 import org.loyaltyengine.couponservice.modules.coupons.repositories.CouponRepository;
+import org.loyaltyengine.couponservice.shared.constants.SharedConstants;
+import org.loyaltyengine.couponservice.shared.dtos.PageDto;
+import org.loyaltyengine.couponservice.shared.dtos.PaginationQueryDto;
+import org.loyaltyengine.couponservice.shared.enums.CouponSortField;
+import org.loyaltyengine.couponservice.shared.enums.SortOrder;
 import org.loyaltyengine.couponservice.shared.utils.CouponCodeGenerator;
 import org.loyaltyengine.openapi.model.ErrorType;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -73,33 +81,25 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public CouponDto getValidCustomerCoupon(String propertyId, String customerId, String couponCode) {
-        log.info("Getting valid coupon for property: {}, customer: {} and code: {}", propertyId, customerId, couponCode);
-        Optional<Coupon> couponOptinal = couponRepository.findByPropertyIdAndCustomerIdAndCouponCode(propertyId,
-                customerId, couponCode);
+    public CouponDto getActiveCustomerCoupon(String propertyId, String customerId, String couponCode) {
+        log.info("Getting valid coupon for property: {}, customer: {} and code: {}", propertyId, customerId,
+                couponCode);
+        Coupon coupon = couponRepository.findByPropertyIdAndCustomerIdAndCouponCodeAndIsActive(propertyId,
+                customerId, couponCode, true)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND, "Coupon not found",
+                        "No valid coupon of code: " + couponCode + " for property: " + propertyId));
 
-        if (couponOptinal.isEmpty() || Boolean.FALSE.equals(couponOptinal.get().getIsActive())) {
-            throw new BadRequestException(ErrorType.INVALID_COUPON,
-                    "Invalid coupon code",
-                    "No valid coupon of code: " + couponCode + " for property: " + propertyId + " and customer: "
-                            + customerId);
-        }
-
-        return couponMapper.toDto(couponOptinal.get());
+        return couponMapper.toDto(coupon);
     }
 
     @Override
-    public CouponDto getValidPropertyCoupon(String propertyId, String couponCode) {
+    public CouponDto getActivePropertyCoupon(String propertyId, String couponCode) {
         log.info("Getting valid coupon for property: {} and code: {}", propertyId, couponCode);
-        Optional<Coupon> couponOptinal = couponRepository.findByPropertyIdAndCouponCode(propertyId, couponCode);
+        Coupon coupon = couponRepository.findByPropertyIdAndCouponCodeAndIsActive(propertyId, couponCode, true)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND, "Coupon not found",
+                        "No valid coupon of code: " + couponCode + " for property: " + propertyId));
 
-        if (couponOptinal.isEmpty() || Boolean.FALSE.equals(couponOptinal.get().getIsActive())) {
-            throw new BadRequestException(ErrorType.INVALID_COUPON,
-                    "Invalid coupon code",
-                    "No valid coupon of code: " + couponCode + " for property: " + propertyId);
-        }
-
-        return couponMapper.toDto(couponOptinal.get());
+        return couponMapper.toDto(coupon);
     }
 
     @Override
@@ -112,6 +112,48 @@ public class CouponServiceImpl implements CouponService {
             throw new NotFoundException(ErrorType.NOT_FOUND, "Coupon not found",
                     "Coupon not found for property: " + couponDto.getPropertyId());
         }
+    }
+
+    @Override
+    public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId,
+            PaginationQueryDto query) {
+        log.info("Getting valid coupons for property: {}, customer: {}", propertyId, customerId);
+        // Pagination and sorting
+        Pageable pageable = buildValidPageable(query);
+
+        // Get coupons
+        Page<Coupon> couponsPage = couponRepository
+                .findByPropertyIdAndCustomerIdAndIsActive(
+                        propertyId,
+                        customerId,
+                        true,
+                        pageable);
+
+        // Map to dto
+        return CouponsResultDto.builder()
+                .page(PageDto.builder()
+                        .page(couponsPage.getNumber())
+                        .size(couponsPage.getSize())
+                        .totalElements(couponsPage.getTotalElements())
+                        .totalPages(couponsPage.getTotalPages())
+                        .sort(query.getSort())
+                        .order(query.getOrder())
+                        .build())
+                .coupons(couponMapper.toDtoList(couponsPage.getContent()))
+                .build();
+    }
+
+    private Pageable buildValidPageable(PaginationQueryDto dto) {
+        int size = dto.getSize() < 0 || dto.getSize() > SharedConstants.MAX_PAGE_SIZE ? SharedConstants.MAX_PAGE_SIZE
+                : dto.getSize();
+        int page = dto.getPage() < SharedConstants.MIN_PAGE_SIZE ? SharedConstants.MIN_PAGE_SIZE : dto.getPage();
+        String sort = CouponSortField.fromValue(dto.getSort()).getValue();
+        String order = SortOrder.fromValue(dto.getOrder()).getValue();
+
+        return PageRequest.of(
+                page,
+                size,
+                Sort.by(order, sort));
     }
 
 }

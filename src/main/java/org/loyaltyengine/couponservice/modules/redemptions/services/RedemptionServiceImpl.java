@@ -27,7 +27,7 @@ public class RedemptionServiceImpl implements RedemptionService {
     @Override
     public RedemptionDto redeemCoupon(RedeemCouponDto redeemCouponDto) {
         log.info("Redeeming coupon {}", redeemCouponDto.getCouponCode());
-        CouponDto coupon = couponService.getValidPropertyCoupon(
+        CouponDto coupon = couponService.getActivePropertyCoupon(
                 redeemCouponDto.getPropertyId(),
                 redeemCouponDto.getCouponCode());
 
