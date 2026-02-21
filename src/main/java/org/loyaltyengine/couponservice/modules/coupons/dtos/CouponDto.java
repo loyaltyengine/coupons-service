@@ -11,11 +11,10 @@ import org.loyaltyengine.couponservice.shared.models.Usage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 public class CouponDto {
     private String id;
     private String propertyId;
@@ -35,4 +34,5 @@ public class CouponDto {
     private String prefix;
     private Boolean isActive;
     private List<Product> products;
+    private List<String> applyToProductsIds;
 }

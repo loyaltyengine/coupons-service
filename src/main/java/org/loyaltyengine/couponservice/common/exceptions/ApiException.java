@@ -1,5 +1,6 @@
 package org.loyaltyengine.couponservice.common.exceptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.loyaltyengine.openapi.model.ErrorDetail;
@@ -9,13 +10,13 @@ import lombok.Getter;
 
 @Getter
 public class ApiException extends RuntimeException {
-    private final ErrorType errorType;
-    private final transient List<ErrorDetail> details;
     private final String message;
     private final String description;
+    private final ErrorType errorType;
+    private final transient List<ErrorDetail> details;
 
     public ApiException(ErrorType errorType, String message, String description) {
-        this(errorType, message, description, null);
+        this(errorType, message, description, new ArrayList<>());
     }
 
     public ApiException(ErrorType errorType, String message, String description,

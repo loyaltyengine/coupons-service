@@ -15,7 +15,6 @@ import org.loyaltyengine.couponservice.shared.models.Eligible;
 import org.loyaltyengine.couponservice.shared.models.Product;
 import org.loyaltyengine.couponservice.shared.utils.CurrencyUtils;
 import org.loyaltyengine.openapi.model.ErrorDetail;
-import org.loyaltyengine.openapi.model.ErrorDetail;
 import org.loyaltyengine.openapi.model.ErrorType;
 import org.springframework.stereotype.Service;
 

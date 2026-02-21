@@ -33,17 +33,14 @@ public class Coupon {
     private Boolean isMultiUser;
     private String couponType;
     private String description;
-    // Dates
     private LocalDateTime createdAt;
     private LocalDateTime validFrom;
     private LocalDateTime expireAt;
-
     private Eligible eligible;
     private Usage usage;
-
     // Coupon type specific fields
-    private Integer percentage; // For Percentage Type
-    private Amount amount; // For Fixed Amount Type
-    private List<String> applyToProductsIds; // for fixed amount and percentage
-    private List<Product> products; // For Free Product Type
+    private Integer percentage; // percentage
+    private Amount amount; // fixed_amount
+    private List<String> applyToProductsIds; // fixed_amount and percentage
+    private List<Product> products; // free_product
 }
