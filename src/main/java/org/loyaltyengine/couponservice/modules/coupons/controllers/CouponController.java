@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,7 +32,7 @@ public class CouponController {
     public ResponseEntity<CreateCouponResponse> createCoupon(
             final @PathVariable String propertyId,
             final @PathVariable String customerId,
-            final @RequestBody BaseCreateCouponRequest createCoupon) {
+            final @RequestBody @Valid BaseCreateCouponRequest createCoupon) {
         // Create dto
         CreateCouponDto createCouponDto = couponMapper.toCreateCouponDto(createCoupon);
         createCouponDto.setPropertyId(propertyId);

@@ -3,6 +3,7 @@ package org.loyaltyengine.couponservice.modules.redemptions.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.loyaltyengine.couponservice.modules.redemptions.dtos.RedeemCouponDto;
@@ -32,16 +33,19 @@ public class RedemptionController {
             @PathVariable String propertyId,
             @PathVariable String customerId,
             @PathVariable String couponCode,
-            @RequestBody(required = false) RedemptionRequest request) {
+            @RequestBody(required = false) @Valid RedemptionRequest request) {
 
+        // Create dto
         RedeemCouponDto redeemCouponDto = new RedeemCouponDto();
         redeemCouponDto.setCart(request != null ? redemptionMapper.mapCart(request.getCart()) : null);
         redeemCouponDto.setPropertyId(propertyId);
         redeemCouponDto.setCustomerId(customerId);
         redeemCouponDto.setCouponCode(couponCode);
 
+        // Redeem the coupon
         RedemptionDto redemptionDto = redemptionService.redeemCoupon(redeemCouponDto);
 
+        // API response
         RedemptionResponse response = new RedemptionResponse()
                 .redemption(redemptionMapper.toClient(redemptionDto))
                 .status(new Status().code(200).message("Coupon redeemed"));
