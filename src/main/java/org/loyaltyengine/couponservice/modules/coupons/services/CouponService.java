@@ -43,4 +43,7 @@ public interface CouponService {
      * @return GetCustomerCouponsResultDto
      */
     public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId, PaginationQueryDto query);
+
+
+    public void cleanIanctiveCoupons();
 }
