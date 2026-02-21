@@ -4,7 +4,6 @@ import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
 import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
-import org.loyaltyengine.openapi.model.CouponType;
 import org.loyaltyengine.openapi.model.CreateCouponResponse;
 import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
 import org.loyaltyengine.openapi.model.CreateFreeProductCouponRequest;
@@ -17,7 +16,6 @@ import org.loyaltyengine.openapi.model.PercentageCoupon;
 import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 
 @Mapper(config = SharedMapperConfig.class)
 public interface CouponMapper {

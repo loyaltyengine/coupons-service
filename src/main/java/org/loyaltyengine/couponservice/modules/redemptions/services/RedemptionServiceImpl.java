@@ -1,9 +1,9 @@
 package org.loyaltyengine.couponservice.modules.redemptions.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.services.CouponService;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RedemptionServiceImpl implements RedemptionService {
 
     private final CouponService couponService;
@@ -25,6 +26,7 @@ public class RedemptionServiceImpl implements RedemptionService {
 
     @Override
     public RedemptionDto redeemCoupon(RedeemCouponDto redeemCouponDto) {
+        log.info("Redeeming coupon {}", redeemCouponDto.getCouponCode());
         CouponDto coupon = couponService.getValidPropertyCoupon(
                 redeemCouponDto.getPropertyId(),
                 redeemCouponDto.getCouponCode());

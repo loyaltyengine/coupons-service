@@ -6,7 +6,6 @@ import java.util.List;
 import org.loyaltyengine.couponservice.shared.models.Amount;
 import org.loyaltyengine.couponservice.shared.models.Eligible;
 import org.loyaltyengine.couponservice.shared.models.Product;
-import org.loyaltyengine.couponservice.shared.models.Usage;
 
 import lombok.Getter;
 import lombok.Setter;

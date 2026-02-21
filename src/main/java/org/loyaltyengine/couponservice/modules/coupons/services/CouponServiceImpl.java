@@ -32,6 +32,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponDto createCoupon(CreateCouponDto createCouponDto) {
+        log.info("Creating coupon: {}", createCouponDto);
         Coupon savedCoupon = null;
         int attempt = 1;
         while (attempt <= CREATE_COUPON_MAX_ATTEMPTS) {
