@@ -224,7 +224,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetCouponResponse'
+                $ref: '#/components/schemas/CouponResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -377,19 +377,19 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListCouponsResponse'
+            $ref: '#/components/schemas/CouponsResponse'
     CreateCouponResponse:
       description: Coupon created successfully
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateCouponResponse'
+            $ref: '#/components/schemas/CouponResponse'
     GetCouponResponse:
       description: Coupon details
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/GetCouponResponse'
+            $ref: '#/components/schemas/CouponResponse'
     RedemptionResponse:
       description: Coupon redeemed successfully
       content:
@@ -533,32 +533,26 @@ components:
         - $ref: '#/components/schemas/BaseCreateCouponRequest'
         - type: object
 
-    CreateCouponResponse:
+    CouponsResponse:
       allOf:
         - $ref: '#/components/schemas/Response'
         - type: object
           properties:
-            coupon:
-              $ref: '#/components/schemas/Coupon'
-    
-    ListCouponsResponse:
-      allOf:
-        - $ref: '#/components/schemas/Response'
-        - type: object
-          properties:
-            pagination:
-              $ref: '#/components/schemas/Pagination'
+            page:
+              $ref: '#/components/schemas/Page'
             coupons:
               type: array
               items:
                 $ref: '#/components/schemas/Coupon'
-    GetCouponResponse:
+
+    CouponResponse:
       allOf:
         - $ref: '#/components/schemas/Response'
         - type: object
           properties:
             coupon:
               $ref: '#/components/schemas/Coupon'
+
     RedemptionRequest:
       type: object
       properties:
@@ -982,3 +976,27 @@ components:
         issue:
           type: string
           description: A description of the issue with the field
+      required:
+        - field
+        - issue
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        size:
+          type: integer
+          example: 20
+        totalElements:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 150
+        sort:
+          type: string
+          example: 'createdAt'
+        order:
+          type: string
+          example: 'asc'

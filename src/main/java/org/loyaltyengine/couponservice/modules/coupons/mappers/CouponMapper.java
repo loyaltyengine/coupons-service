@@ -4,7 +4,7 @@ import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
 import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
-import org.loyaltyengine.openapi.model.CreateCouponResponse;
+import org.loyaltyengine.openapi.model.CouponResponse;
 import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
 import org.loyaltyengine.openapi.model.CreateFreeProductCouponRequest;
 import org.loyaltyengine.openapi.model.CreateFreeShippingCouponRequest;
@@ -13,6 +13,9 @@ import org.loyaltyengine.openapi.model.FixedAmountCoupon;
 import org.loyaltyengine.openapi.model.FreeProductCoupon;
 import org.loyaltyengine.openapi.model.FreeShippingCoupon;
 import org.loyaltyengine.openapi.model.PercentageCoupon;
+
+import java.util.List;
+
 import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -54,7 +57,7 @@ public interface CouponMapper {
     CreateCouponDto mapFreeShipping(CreateFreeShippingCouponRequest request);
 
     @Mapping(source = "dto", target = "coupon")
-    CreateCouponResponse toCreateCouponResponse(CouponDto dto);
+    CouponResponse toCouponResponse(CouponDto dto);
 
     default org.loyaltyengine.openapi.model.Coupon mapToOpenApiCoupon(CouponDto dto) {
         if (dto == null || dto.getCouponType() == null)
@@ -76,5 +79,9 @@ public interface CouponMapper {
     FixedAmountCoupon toFixedAmountApi(CouponDto dto);
 
     FreeShippingCoupon toFreeShippingApi(CouponDto dto);
+
+    List<CouponDto> toDtoList(List<Coupon> coupons);
+
+    List<org.loyaltyengine.openapi.model.Coupon> toClientList(List<CouponDto> dtos);
 
 }

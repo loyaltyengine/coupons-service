@@ -2,6 +2,8 @@ package org.loyaltyengine.couponservice.modules.coupons.services;
 
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
+import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponsResultDto;
+import org.loyaltyengine.couponservice.shared.dtos.PaginationQueryDto;
 
 public interface CouponService {
 
@@ -18,7 +20,7 @@ public interface CouponService {
      * @param couponCode
      * @return CouponDto
      */
-    public CouponDto getValidPropertyCoupon(String propertyId, String couponCode);
+    public CouponDto getActivePropertyCoupon(String propertyId, String couponCode);
 
     /**
      * Get a coupon by propertyId, customerId and couponCode
@@ -27,7 +29,18 @@ public interface CouponService {
      * @param couponCode
      * @return CouponDto
      */
-    public  CouponDto getValidCustomerCoupon(String propertyId, String customerId, String couponCode);
+    public  CouponDto getActiveCustomerCoupon(String propertyId, String customerId, String couponCode);
 
+    /**
+     * Update a coupon usage
+     * @param couponDto
+     */
     public void updateCouponUsage(CouponDto couponDto);
+
+    /**
+     * Get paginated customer coupons
+     * @param dto
+     * @return GetCustomerCouponsResultDto
+     */
+    public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId, PaginationQueryDto query);
 }
