@@ -47,7 +47,7 @@ public class CouponController {
         CreateCouponDto createCouponDto = couponMapper.toCreateCouponDto(createCoupon);
         createCouponDto.setPropertyId(propertyId);
         createCouponDto.setCustomerId(customerId);
-
+       
         // Create coupon
         CouponDto couponDto = couponService.createCoupon(createCouponDto);
 

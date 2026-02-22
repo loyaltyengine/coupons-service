@@ -948,6 +948,7 @@ components:
         - token_not_found
         - validation_error
         - internal_server_error
+        - conflict_error
     ErrorResponse:
       description: A standard error response
       allOf:
