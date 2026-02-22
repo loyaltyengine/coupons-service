@@ -1,9 +1,6 @@
 spring:
   application:
     name: couponservice
-  grpc:
-    server:
-      port: 9090
   data:
     mongodb:
       uri: mongodb://localhost:27017/
