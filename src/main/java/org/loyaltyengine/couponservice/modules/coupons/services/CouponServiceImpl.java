@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.loyaltyengine.couponservice.common.exceptions.ConflictException;
 import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
@@ -30,7 +32,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CouponServiceImpl implements CouponService {
 
-    public static final int CREATE_COUPON_MAX_ATTEMPTS = 3;
+    public static final int CREATE_COUPON_MAX_ATTEMPTS = 5;
     public static final int COUPON_CODE_LENGTH = 16;
     public static final String COUPON_CODE_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String COUPON_CODE_PREFIX = "";
@@ -66,7 +68,11 @@ public class CouponServiceImpl implements CouponService {
                 if (attempt == CREATE_COUPON_MAX_ATTEMPTS) {
                     log.error("Failed to create coupon after {} attempts due to duplicate key",
                             CREATE_COUPON_MAX_ATTEMPTS);
-                    throw e;
+
+                    throw new ConflictException(
+                            ErrorType.CONFLICT_ERROR,
+                            "Unique Constraint Failed",
+                            "Unable to create a unique coupon code. Please try again.");
                 }
                 // Continue
                 attempt += 1;
@@ -146,7 +152,7 @@ public class CouponServiceImpl implements CouponService {
     private Pageable buildValidPageable(PaginationQueryDto dto) {
         int size = dto.getSize() < 0 || dto.getSize() > SharedConstants.MAX_PAGE_SIZE ? SharedConstants.MAX_PAGE_SIZE
                 : dto.getSize();
-        int page = dto.getPage() < SharedConstants.MIN_PAGE_SIZE ? SharedConstants.MIN_PAGE_SIZE : dto.getPage();
+        int page = dto.getPage() < SharedConstants.MIN_PAGE_NUMBER ? SharedConstants.MIN_PAGE_NUMBER : dto.getPage();
 
         String sort = CouponSortField.fromValue(dto.getSort()).getValue();
         String order = SortOrder.fromValue(dto.getOrder()).getValue();

@@ -8,6 +8,7 @@ import org.loyaltyengine.couponservice.shared.models.Eligible;
 import org.loyaltyengine.couponservice.shared.models.Product;
 import org.loyaltyengine.couponservice.shared.models.Usage;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -15,11 +16,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document("coupons")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("coupons")
+@CompoundIndex(name = "property_coupon_idx", def = "{'propertyId': 1, 'couponCode': 1}", unique = true)
 public class Coupon {
 
     @Id

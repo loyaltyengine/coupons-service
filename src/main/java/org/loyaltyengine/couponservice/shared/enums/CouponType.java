@@ -1,5 +1,8 @@
 package org.loyaltyengine.couponservice.shared.enums;
 
+import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
+import org.loyaltyengine.openapi.model.ErrorType;
+
 import lombok.Getter;
 
 @Getter
@@ -7,8 +10,7 @@ public enum CouponType {
     FIXED_AMOUNT("fixed_amount"),
     PERCENTAGE("percentage"),
     FREE_PRODUCT("free_product"),
-    FREE_SHIPPING("free_shipping"),
-    INVALID_TYPE("invalid_type");
+    FREE_SHIPPING("free_shipping");
 
     private final String value;
 
@@ -22,6 +24,8 @@ public enum CouponType {
                 return couponType;
             }
         }
-        return INVALID_TYPE;
+
+        throw new BadRequestException(ErrorType.INVALID_REQUEST, "Invalid coupon type", "Invalid coupon type: " + value
+                + ". Supported values: [fixed_amount, percentage, free_product, free_shipping]");
     }
 }
