@@ -9,6 +9,7 @@ public interface CouponService {
 
     /**
      * Create a new coupon
+     * 
      * @param createCouponDto coupon dto
      * @return CouponDto
      */
@@ -16,6 +17,7 @@ public interface CouponService {
 
     /**
      * Get a coupon by propertyId and couponCode
+     * 
      * @param propertyId
      * @param couponCode
      * @return CouponDto
@@ -24,26 +26,28 @@ public interface CouponService {
 
     /**
      * Get a coupon by propertyId, customerId and couponCode
+     * 
      * @param propertyId
      * @param customerId
      * @param couponCode
      * @return CouponDto
      */
-    public  CouponDto getActiveCustomerCoupon(String propertyId, String customerId, String couponCode);
+    public CouponDto getActiveCustomerCoupon(String propertyId, String customerId, String couponCode);
 
     /**
      * Update a coupon usage
+     * 
      * @param couponDto
      */
     public void updateCouponUsage(CouponDto couponDto);
 
     /**
      * Get paginated customer coupons
+     * 
      * @param dto
      * @return GetCustomerCouponsResultDto
      */
     public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId, PaginationQueryDto query);
-
 
     public void cleanIanctiveCoupons();
 }

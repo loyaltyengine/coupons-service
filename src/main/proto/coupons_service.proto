@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.loyaltyengine.couponservice.proto";
+// The coupon gRPC service definition
+service CouponService {
+  // Get coupon
+  rpc GetCoupon(CouponRequest) returns (CouponResponse) {}
+}
+
+message CouponRequest {
+  string name = 1;
+}
+
+message CouponResponse {
+  string message = 1;
+}
