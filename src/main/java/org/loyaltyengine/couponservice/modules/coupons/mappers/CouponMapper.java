@@ -1,8 +1,12 @@
 package org.loyaltyengine.couponservice.modules.coupons.mappers;
 
+import java.util.List;
+
+import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
+import org.loyaltyengine.couponservice.shared.enums.CouponType;
 import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
 import org.loyaltyengine.openapi.model.CouponResponse;
 import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
@@ -13,10 +17,6 @@ import org.loyaltyengine.openapi.model.FixedAmountCoupon;
 import org.loyaltyengine.openapi.model.FreeProductCoupon;
 import org.loyaltyengine.openapi.model.FreeShippingCoupon;
 import org.loyaltyengine.openapi.model.PercentageCoupon;
-
-import java.util.List;
-
-import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

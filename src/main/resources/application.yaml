@@ -6,5 +6,5 @@ spring:
       port: 9090
   data:
     mongodb:
-      uri: mongodb://localhost:27017/
+      uri: mongo://localhost:27017/
       auto-index-creation: true

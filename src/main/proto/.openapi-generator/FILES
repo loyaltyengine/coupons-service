@@ -1,0 +1,5 @@
+.openapi-generator-ignore
+README.md
+org.loyaltyengine.protobuf/coupons_models.proto
+services/coupons_service.proto
+services/redemptions_service.proto
