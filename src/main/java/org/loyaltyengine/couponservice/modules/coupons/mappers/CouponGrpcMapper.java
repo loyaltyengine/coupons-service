@@ -1,6 +1,8 @@
 package org.loyaltyengine.couponservice.modules.coupons.mappers;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
@@ -94,5 +96,19 @@ public interface CouponGrpcMapper {
 
     default String formatDateTime(LocalDateTime value) {
         return value != null ? value.toString() : null;
+    }
+
+    default OffsetDateTime mapStringToOffsetDateTime(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    }
+
+    default String mapOffsetDateTimeToString(OffsetDateTime value) {
+        if (value == null) {
+            return null;
+        }
+        return value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 }

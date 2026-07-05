@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.2</version>
+		<version>4.1.0</version>
 		<relativePath/>
 	</parent>
 	<groupId>org.loyaltyengine</groupId>
@@ -124,6 +124,10 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
+							<typeMappings>
+								<typeMapping>DateTime=String</typeMapping>
+								<typeMapping>date-time=String</typeMapping>
+							</typeMappings>
 							<skipValidateSpec>true</skipValidateSpec>
 							<inputSpec>${project.basedir}/src/main/resources/api/coupons-v1.yaml</inputSpec>
 							<generatorName>spring</generatorName>

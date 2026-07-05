@@ -6,6 +6,8 @@ import org.loyaltyengine.couponservice.shared.dtos.PageDto;
 import org.loyaltyengine.couponservice.shared.models.Amount;
 import org.loyaltyengine.couponservice.shared.models.Product;
 import org.loyaltyengine.couponservice.shared.models.Usage;
+import org.loyaltyengine.openapi.model.CouponStatus;
+import org.loyaltyengine.openapi.model.CouponType;
 import org.loyaltyengine.openapi.model.Page;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

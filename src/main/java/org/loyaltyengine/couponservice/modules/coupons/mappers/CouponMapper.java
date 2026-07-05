@@ -6,7 +6,6 @@ import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
-import org.loyaltyengine.couponservice.shared.enums.CouponType;
 import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
 import org.loyaltyengine.openapi.model.CouponResponse;
 import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
@@ -64,21 +63,21 @@ public interface CouponMapper {
             return null;
 
         return switch (dto.getCouponType().toLowerCase()) {
-            case "percentage" -> toPercentageApi(dto);
-            case "fixed_amount" -> toFixedAmountApi(dto);
-            case "free_product" -> toFreeProductApi(dto);
-            case "free_shipping" -> toFreeShippingApi(dto);
-            default -> toFixedAmountApi(dto);
+            case "percentage" -> toClientPercentage(dto);
+            case "fixed_amount" -> toClientFixedAmount(dto);
+            case "free_product" -> toClientFreeProduct(dto);
+            case "free_shipping" -> toClientFreeShipping(dto);
+            default -> toClientFixedAmount(dto);
         };
     }
 
-    FreeProductCoupon toFreeProductApi(CouponDto dto);
+    FreeProductCoupon toClientFreeProduct(CouponDto dto);
 
-    PercentageCoupon toPercentageApi(CouponDto dto);
+    PercentageCoupon toClientPercentage(CouponDto dto);
 
-    FixedAmountCoupon toFixedAmountApi(CouponDto dto);
+    FixedAmountCoupon toClientFixedAmount(CouponDto dto);
 
-    FreeShippingCoupon toFreeShippingApi(CouponDto dto);
+    FreeShippingCoupon toClientFreeShipping(CouponDto dto);
 
     List<CouponDto> toDtoList(List<Coupon> coupons);
 

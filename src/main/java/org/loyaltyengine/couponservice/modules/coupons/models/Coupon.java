@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.models;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.loyaltyengine.couponservice.shared.models.Amount;
@@ -35,9 +35,9 @@ public class Coupon {
     private Boolean isMultiUser;
     private String couponType;
     private String description;
-    private LocalDateTime createdAt;
-    private LocalDateTime validFrom;
-    private LocalDateTime expireAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime validFrom;
+    private OffsetDateTime expireAt;
     private Eligible eligible;
     private Usage usage;
     // Coupon type specific fields

@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.services;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class CouponServiceImpl implements CouponService {
                         COUPON_CODE_LENGTH,
                         COUPON_CODE_CHARSET);
                 newCoupon.setCouponCode(couponCode);
-                newCoupon.setCreatedAt(LocalDateTime.now());
+                newCoupon.setCreatedAt(OffsetDateTime.now());
                 newCoupon.setIsActive(true);
                 // Save the new coupon
                 savedCoupon = couponRepository.save(newCoupon);
@@ -121,7 +121,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId,
-            PaginationQueryDto query) {
+                                                     PaginationQueryDto query) {
         log.info("Getting valid coupons for property: {}, customer: {}", propertyId, customerId);
         // Pagination and sorting
         Pageable pageable = buildValidPageable(query);
