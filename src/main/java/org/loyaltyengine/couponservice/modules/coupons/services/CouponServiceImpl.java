@@ -19,7 +19,7 @@ import org.loyaltyengine.couponservice.shared.dtos.PaginationQueryDto;
 import org.loyaltyengine.couponservice.shared.enums.CouponSortField;
 import org.loyaltyengine.couponservice.shared.enums.SortOrder;
 import org.loyaltyengine.couponservice.shared.utils.CouponCodeGenerator;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.coupons.v1.model.ErrorType;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

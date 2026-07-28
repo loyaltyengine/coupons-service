@@ -3,8 +3,8 @@ package org.loyaltyengine.couponservice.common.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.loyaltyengine.openapi.model.ErrorDetail;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.coupons.v1.model.ErrorDetail;
+import org.loyaltyengine.coupons.v1.model.ErrorType;
 
 import lombok.Getter;
 

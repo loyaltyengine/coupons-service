@@ -8,6 +8,7 @@ import org.loyaltyengine.couponservice.shared.models.Eligible;
 import org.loyaltyengine.couponservice.shared.models.Product;
 import org.loyaltyengine.couponservice.shared.models.Usage;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -35,8 +36,11 @@ public class Coupon {
     private Boolean isMultiUser;
     private String couponType;
     private String description;
+    @Transient
     private OffsetDateTime createdAt;
+    @Transient
     private OffsetDateTime validFrom;
+    @Transient
     private OffsetDateTime expireAt;
     private Eligible eligible;
     private Usage usage;

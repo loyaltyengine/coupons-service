@@ -7,10 +7,10 @@ import org.loyaltyengine.couponservice.common.exceptions.ApiException;
 import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
 import org.loyaltyengine.couponservice.common.exceptions.ConflictException;
 import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
-import org.loyaltyengine.openapi.model.ErrorDetail;
-import org.loyaltyengine.openapi.model.ErrorResponse;
-import org.loyaltyengine.openapi.model.ErrorType;
-import org.loyaltyengine.openapi.model.Status;
+import org.loyaltyengine.coupons.v1.model.ErrorDetail;
+import org.loyaltyengine.coupons.v1.model.ErrorResponse;
+import org.loyaltyengine.coupons.v1.model.ErrorType;
+import org.loyaltyengine.coupons.v1.model.Status;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(ApiException e, HttpStatus status) {
-        log.error("Error occurred: {}", e);
+        log.error("API Exception caught: {}", e.getMessage(), e);
         ErrorResponse errorResponse = new ErrorResponse()
                 .status(new Status().code(status.value()).message(e.getMessage()))
                 .error(e.getErrorType())

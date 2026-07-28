@@ -2,12 +2,12 @@ package org.loyaltyengine.couponservice.modules.redemptions.mappers;
 
 import org.loyaltyengine.couponservice.modules.redemptions.dtos.RedemptionDto;
 import org.loyaltyengine.couponservice.config.SharedMapperConfig;
-import org.loyaltyengine.openapi.model.Cart;
-import org.loyaltyengine.openapi.model.FixedAmountRedemption;
-import org.loyaltyengine.openapi.model.FreeProductRedemption;
-import org.loyaltyengine.openapi.model.FreeShippingRedemption;
-import org.loyaltyengine.openapi.model.PercentageRedemption;
-import org.loyaltyengine.openapi.model.Redemption;
+import org.loyaltyengine.coupons.v1.model.Cart;
+import org.loyaltyengine.coupons.v1.model.FixedAmountRedemption;
+import org.loyaltyengine.coupons.v1.model.FreeProductRedemption;
+import org.loyaltyengine.coupons.v1.model.FreeShippingRedemption;
+import org.loyaltyengine.coupons.v1.model.PercentageRedemption;
+import org.loyaltyengine.coupons.v1.model.Redemption;
 import org.mapstruct.Mapper;
 
 @Mapper(config = SharedMapperConfig.class)
