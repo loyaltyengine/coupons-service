@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.repositories;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
@@ -31,7 +31,7 @@ public class CustomCouponRepositoryImpl implements CustomCouponRepository {
         Query query = new Query(Criteria.where(FIELD_PROPERTY_ID).is(propertyId)
             .and(FIELD_COUPON_CODE).is(couponCode)
             .and(FIELD_IS_ACTIVE).is(true)
-            .and(FIELD_EXPIRE_AT).gt(LocalDateTime.now()));
+            .and(FIELD_EXPIRE_AT).gt(OffsetDateTime.now()));
         return Optional.ofNullable(mongoTemplate.findOne(query, Coupon.class));
     }
 
@@ -40,7 +40,7 @@ public class CustomCouponRepositoryImpl implements CustomCouponRepository {
         Query query = new Query(Criteria.where(FIELD_PROPERTY_ID).is(propertyId)
             .and(FIELD_COUPON_CODE).is(couponCode)
             .and(FIELD_IS_ACTIVE).is(true)
-            .and(FIELD_EXPIRE_AT).gt(LocalDateTime.now()));
+            .and(FIELD_EXPIRE_AT).gt(OffsetDateTime.now()));
         return Optional.ofNullable(mongoTemplate.findOne(query, Coupon.class));
 
     }
@@ -50,7 +50,7 @@ public class CustomCouponRepositoryImpl implements CustomCouponRepository {
         Query query = new Query(Criteria.where(FIELD_PROPERTY_ID).is(propertyId)
             .and(FIELD_CUSTOMER_ID).is(customerId)
             .and(FIELD_IS_ACTIVE).is(true)
-            .and(FIELD_EXPIRE_AT).gt(LocalDateTime.now()))
+            .and(FIELD_EXPIRE_AT).gt(OffsetDateTime.now()))
                 .with(pageable);
 
         return PageableExecutionUtils.getPage(
@@ -62,7 +62,7 @@ public class CustomCouponRepositoryImpl implements CustomCouponRepository {
     @Override
     public long deleteInactiveCoupons() {
         Query query = new Query(Criteria.where(FIELD_IS_ACTIVE).is(false)
-            .and(FIELD_EXPIRE_AT).lt(LocalDateTime.now()));
+            .and(FIELD_EXPIRE_AT).lt(OffsetDateTime.now()));
         return mongoTemplate.remove(query, Coupon.class).getDeletedCount();
     }
 

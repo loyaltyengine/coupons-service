@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.services;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.loyaltyengine.couponservice.shared.dtos.PaginationQueryDto;
 import org.loyaltyengine.couponservice.shared.enums.CouponSortField;
 import org.loyaltyengine.couponservice.shared.enums.SortOrder;
 import org.loyaltyengine.couponservice.shared.utils.CouponCodeGenerator;
-import org.loyaltyengine.openapi.model.ErrorType;
+import org.loyaltyengine.coupons.v1.model.ErrorType;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,7 +54,7 @@ public class CouponServiceImpl implements CouponService {
                         COUPON_CODE_LENGTH,
                         COUPON_CODE_CHARSET);
                 newCoupon.setCouponCode(couponCode);
-                newCoupon.setCreatedAt(LocalDateTime.now());
+                newCoupon.setCreatedAt(OffsetDateTime.now());
                 newCoupon.setIsActive(true);
                 // Save the new coupon
                 savedCoupon = couponRepository.save(newCoupon);
@@ -121,7 +121,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponsResultDto getActiveCustomerCoupons(String propertyId, String customerId,
-            PaginationQueryDto query) {
+                                                     PaginationQueryDto query) {
         log.info("Getting valid coupons for property: {}, customer: {}", propertyId, customerId);
         // Pagination and sorting
         Pageable pageable = buildValidPageable(query);

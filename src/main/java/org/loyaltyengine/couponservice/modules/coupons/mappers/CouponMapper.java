@@ -6,17 +6,16 @@ import org.loyaltyengine.couponservice.config.SharedMapperConfig;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.models.Coupon;
-import org.loyaltyengine.couponservice.shared.enums.CouponType;
-import org.loyaltyengine.openapi.model.BaseCreateCouponRequest;
-import org.loyaltyengine.openapi.model.CouponResponse;
-import org.loyaltyengine.openapi.model.CreateFixedAmountCouponRequest;
-import org.loyaltyengine.openapi.model.CreateFreeProductCouponRequest;
-import org.loyaltyengine.openapi.model.CreateFreeShippingCouponRequest;
-import org.loyaltyengine.openapi.model.CreatePercentageCouponRequest;
-import org.loyaltyengine.openapi.model.FixedAmountCoupon;
-import org.loyaltyengine.openapi.model.FreeProductCoupon;
-import org.loyaltyengine.openapi.model.FreeShippingCoupon;
-import org.loyaltyengine.openapi.model.PercentageCoupon;
+import org.loyaltyengine.coupons.v1.model.BaseCreateCouponRequest;
+import org.loyaltyengine.coupons.v1.model.CouponResponse;
+import org.loyaltyengine.coupons.v1.model.CreateFixedAmountCouponRequest;
+import org.loyaltyengine.coupons.v1.model.CreateFreeProductCouponRequest;
+import org.loyaltyengine.coupons.v1.model.CreateFreeShippingCouponRequest;
+import org.loyaltyengine.coupons.v1.model.CreatePercentageCouponRequest;
+import org.loyaltyengine.coupons.v1.model.FixedAmountCoupon;
+import org.loyaltyengine.coupons.v1.model.FreeProductCoupon;
+import org.loyaltyengine.coupons.v1.model.FreeShippingCoupon;
+import org.loyaltyengine.coupons.v1.model.PercentageCoupon;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -59,29 +58,29 @@ public interface CouponMapper {
     @Mapping(source = "dto", target = "coupon")
     CouponResponse toCouponResponse(CouponDto dto);
 
-    default org.loyaltyengine.openapi.model.Coupon mapToOpenApiCoupon(CouponDto dto) {
+    default org.loyaltyengine.coupons.v1.model.Coupon mapToOpenApiCoupon(CouponDto dto) {
         if (dto == null || dto.getCouponType() == null)
             return null;
 
         return switch (dto.getCouponType().toLowerCase()) {
-            case "percentage" -> toPercentageApi(dto);
-            case "fixed_amount" -> toFixedAmountApi(dto);
-            case "free_product" -> toFreeProductApi(dto);
-            case "free_shipping" -> toFreeShippingApi(dto);
-            default -> toFixedAmountApi(dto);
+            case "percentage" -> toClientPercentage(dto);
+            case "fixed_amount" -> toClientFixedAmount(dto);
+            case "free_product" -> toClientFreeProduct(dto);
+            case "free_shipping" -> toClientFreeShipping(dto);
+            default -> toClientFixedAmount(dto);
         };
     }
 
-    FreeProductCoupon toFreeProductApi(CouponDto dto);
+    FreeProductCoupon toClientFreeProduct(CouponDto dto);
 
-    PercentageCoupon toPercentageApi(CouponDto dto);
+    PercentageCoupon toClientPercentage(CouponDto dto);
 
-    FixedAmountCoupon toFixedAmountApi(CouponDto dto);
+    FixedAmountCoupon toClientFixedAmount(CouponDto dto);
 
-    FreeShippingCoupon toFreeShippingApi(CouponDto dto);
+    FreeShippingCoupon toClientFreeShipping(CouponDto dto);
 
     List<CouponDto> toDtoList(List<Coupon> coupons);
 
-    List<org.loyaltyengine.openapi.model.Coupon> toClientList(List<CouponDto> dtos);
+    List<org.loyaltyengine.coupons.v1.model.Coupon> toClientList(List<CouponDto> dtos);
 
 }

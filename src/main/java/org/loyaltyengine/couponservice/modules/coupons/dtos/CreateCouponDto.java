@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.dtos;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.loyaltyengine.couponservice.shared.models.Amount;
@@ -21,8 +21,8 @@ public class CreateCouponDto {
     private Integer usageLimit;
     private Boolean isMultiUser;
     private Eligible eligible;
-    private LocalDateTime expireAt;
-    private LocalDateTime validFrom;
+    private OffsetDateTime expireAt;
+    private OffsetDateTime validFrom;
     private String prefix;
     private Amount amount;
     private List<Product> products;

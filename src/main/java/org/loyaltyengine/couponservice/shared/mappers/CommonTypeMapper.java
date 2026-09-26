@@ -5,8 +5,8 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
-import org.loyaltyengine.openapi.model.CouponStatus;
-import org.loyaltyengine.openapi.model.CouponType;
+import org.loyaltyengine.coupons.v1.model.CouponStatus;
+import org.loyaltyengine.coupons.v1.model.CouponType;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
