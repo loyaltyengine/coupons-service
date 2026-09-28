@@ -1,7 +1,7 @@
 package org.loyaltyengine.couponservice.modules.coupons.mappers;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
@@ -90,7 +90,7 @@ public interface CouponGrpcMapper {
         try {
             return LocalDateTime.parse(value);
         } catch (Exception e) {
-            return java.time.OffsetDateTime.parse(value).toLocalDateTime();
+            return LocalDateTime.ofInstant(java.time.Instant.parse(value), java.time.ZoneOffset.UTC);
         }
     }
 
@@ -98,17 +98,18 @@ public interface CouponGrpcMapper {
         return value != null ? value.toString() : null;
     }
 
-    default OffsetDateTime mapStringToOffsetDateTime(String value) {
+    default Instant mapStringToInstant(String value) {
         if (value == null || value.trim().isEmpty()) {
             return null;
         }
-        return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        return Instant.parse(value);
     }
 
-    default String mapOffsetDateTimeToString(OffsetDateTime value) {
+    default String mapInstantToString(Instant value) {
         if (value == null) {
             return null;
         }
-        return value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        return java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME
+                .format(value.atZone(java.time.ZoneOffset.UTC));
     }
 }

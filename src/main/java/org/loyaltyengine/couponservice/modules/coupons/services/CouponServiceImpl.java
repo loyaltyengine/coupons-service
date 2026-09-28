@@ -1,12 +1,12 @@
 package org.loyaltyengine.couponservice.modules.coupons.services;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.loyaltyengine.couponservice.common.exceptions.ConflictException;
-import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
+import org.loyaltyengine.couponservice.core.exceptions.ConflictException;
+import org.loyaltyengine.couponservice.core.exceptions.NotFoundException;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CreateCouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponsResultDto;
@@ -54,7 +54,7 @@ public class CouponServiceImpl implements CouponService {
                         COUPON_CODE_LENGTH,
                         COUPON_CODE_CHARSET);
                 newCoupon.setCouponCode(couponCode);
-                newCoupon.setCreatedAt(OffsetDateTime.now());
+                newCoupon.setCreatedAt(Instant.now());
                 newCoupon.setIsActive(true);
                 // Save the new coupon
                 savedCoupon = couponRepository.save(newCoupon);

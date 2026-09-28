@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.redemptions.dtos;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import org.loyaltyengine.couponservice.shared.models.Amount;
@@ -19,7 +19,7 @@ public class RedemptionDto {
 	private String redeemedByCustomerId;
 	private String couponType;
 	private Usage usage;
-	private OffsetDateTime redeemedAt;
+	private Instant redeemedAt;
 	private Amount amount;
 	private Integer percentage;
 	private List<Product> products;

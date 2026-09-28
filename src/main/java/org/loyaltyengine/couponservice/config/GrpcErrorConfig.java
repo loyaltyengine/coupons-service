@@ -2,9 +2,9 @@ package org.loyaltyengine.couponservice.config;
 
 import java.util.stream.Collectors;
 
-import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
-import org.loyaltyengine.couponservice.common.exceptions.ConflictException;
-import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
+import org.loyaltyengine.couponservice.core.exceptions.BadRequestException;
+import org.loyaltyengine.couponservice.core.exceptions.ConflictException;
+import org.loyaltyengine.couponservice.core.exceptions.NotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.grpc.server.exception.GrpcExceptionHandler;

@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "v1")
+@RequestMapping(value = "coupons-api/v1")
 public class CouponController {
     public static final String PROPERTY_COUPONS_URL = "/properties/{propertyId}/coupons";
     public static final String CUSTOMER_COUPONS_URL = "/properties/{propertyId}/customers/{customerId}/coupons";

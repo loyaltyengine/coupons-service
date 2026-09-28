@@ -1,7 +1,7 @@
 package org.loyaltyengine.couponservice.shared.mappers;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
@@ -28,8 +28,8 @@ public interface CommonTypeMapper {
         return value == null ? null : value.getValue();
     }
 
-    default LocalDateTime map(OffsetDateTime value) {
-        return value == null ? null : value.toLocalDateTime();
+    default LocalDateTime map(Instant value) {
+        return value == null ? null : java.time.LocalDateTime.ofInstant(value, java.time.ZoneOffset.UTC);
     }
 
     default LocalDateTime map(String value) {
@@ -40,11 +40,11 @@ public interface CommonTypeMapper {
         try {
             return LocalDateTime.parse(value);
         } catch (DateTimeParseException ignored) {
-            return OffsetDateTime.parse(value).toLocalDateTime();
+            return LocalDateTime.ofInstant(java.time.Instant.parse(value), java.time.ZoneOffset.UTC);
         }
     }
 
-    default OffsetDateTime map(LocalDateTime value) {
-        return value == null ? null : value.atOffset(ZoneOffset.UTC);
+    default Instant map(LocalDateTime value) {
+        return value == null ? null : value.toInstant(java.time.ZoneOffset.UTC);
     }
 }

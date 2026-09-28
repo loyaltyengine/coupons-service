@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://apache.org"
+    xmlns:xsi="http://w3.org"
+    xsi:schemaLocation="http://apache.org http://apache.org">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.loyaltyengine.coupons</groupId>
+    <artifactId>api-models</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <openapi-generator.version>7.19.0</openapi-generator.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
+        <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+        <jackson.version>2.17.1</jackson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta.annotation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/../../openapi/coupons-v1.yaml</inputSpec>
+
+                            <generatorName>java</generatorName>
+
+                            <globalProperties>
+                                <models></models>
+                            </globalProperties>
+
+                            <typeMappings>
+                                <typeMapping>DateTime=String</typeMapping>
+                                <typeMapping>date-time=String</typeMapping>
+                            </typeMappings>
+                            <skipValidateSpec>true</skipValidateSpec>
+
+                            <openapiNormalizer>
+                                REF_AS_PARENT_IN_ALLOF=true,REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true</openapiNormalizer>
+
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <library>native</library>
+                                <serializationLibrary>jackson</serializationLibrary>
+                                <openApiNullable>false</openApiNullable>
+                                <useJakartaEe>true</useJakartaEe>
+                                <modelPackage>org.loyaltyengine.coupons.v1.model</modelPackage>
+                                <apiPackage>org.loyaltyengine.coupons.v1.api</apiPackage>
+                                <invokerPackage>org.loyaltyengine.coupons.v1</invokerPackage>
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>false</performBeanValidation>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>
+                                    ${project.build.directory}/generated-sources/openapi/src/gen/java/main</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
