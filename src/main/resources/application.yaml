@@ -1,10 +1,18 @@
 spring:
   application:
     name: couponservice
-  grpc:
-    server:
-      port: 9090
-  data:
-    mongodb:
-      uri: mongo://localhost:27017/
-      auto-index-creation: true
+  mongodb:
+    host: localhost
+    port: 27017
+    database: le_coupons
+    username: user
+    password: password
+    authentication-database: admin
+    auto-index-creation: true
+
+grpc:
+  server:
+    port: 9091
+
+server:
+  port: 8081

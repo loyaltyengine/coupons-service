@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.modules.coupons.models;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import org.loyaltyengine.couponservice.shared.models.Amount;
@@ -36,12 +36,9 @@ public class Coupon {
     private Boolean isMultiUser;
     private String couponType;
     private String description;
-    @Transient
-    private OffsetDateTime createdAt;
-    @Transient
-    private OffsetDateTime validFrom;
-    @Transient
-    private OffsetDateTime expireAt;
+    private Instant createdAt;
+    private Instant validFrom;
+    private Instant expireAt;
     private Eligible eligible;
     private Usage usage;
     // Coupon type specific fields

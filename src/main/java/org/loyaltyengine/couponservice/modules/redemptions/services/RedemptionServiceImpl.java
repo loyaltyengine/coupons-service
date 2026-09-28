@@ -3,7 +3,7 @@ package org.loyaltyengine.couponservice.modules.redemptions.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.coupons.services.CouponService;
@@ -56,7 +56,7 @@ public class RedemptionServiceImpl implements RedemptionService {
                 .products(coupon.getProducts())
                 .couponType(coupon.getCouponType())
                 .usage(coupon.getUsage())
-                .redeemedAt(OffsetDateTime.now())
+                .redeemedAt(Instant.now())
                 .build();
 
         Redemption savedRedemption = repository.save(redemption);

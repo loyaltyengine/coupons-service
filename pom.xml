@@ -34,6 +34,13 @@
         <protobuf-java.version>4.33.4</protobuf-java.version>
         <spring-grpc.version>1.0.2</spring-grpc.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>coupons-service-local-repo</id>
+            <name>Coupons Service Repository</name>
+            <url>file://${project.basedir}/libs</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,7 +106,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--Loyalty Engine Coupons: https://github.com/loyaltyengine/loyalty-engine-artifacts/tree/main/services/coupons-service-->
+        <!--Loyalty Engine-->
         <dependency>
             <groupId>org.loyaltyengine.coupons</groupId>
             <artifactId>api-models</artifactId>

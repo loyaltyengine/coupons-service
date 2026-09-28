@@ -1,4 +1,4 @@
-package org.loyaltyengine.couponservice.common.exceptions;
+package org.loyaltyengine.couponservice.core.exceptions;
 
 import org.loyaltyengine.coupons.v1.model.ErrorType;
 

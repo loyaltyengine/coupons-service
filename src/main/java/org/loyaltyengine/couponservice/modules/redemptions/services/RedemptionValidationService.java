@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
+import org.loyaltyengine.couponservice.core.exceptions.BadRequestException;
 import org.loyaltyengine.couponservice.modules.coupons.dtos.CouponDto;
 import org.loyaltyengine.couponservice.modules.redemptions.dtos.RedeemCouponDto;
 import org.loyaltyengine.couponservice.shared.models.Amount;

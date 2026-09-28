@@ -1,4 +1,4 @@
-package org.loyaltyengine.couponservice.common.exceptions;
+package org.loyaltyengine.couponservice.core.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

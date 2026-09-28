@@ -1,6 +1,6 @@
 package org.loyaltyengine.couponservice.shared.enums;
 
-import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
+import org.loyaltyengine.couponservice.core.exceptions.BadRequestException;
 import org.loyaltyengine.coupons.v1.model.ErrorType;
 
 import lombok.Getter;

@@ -1,12 +1,12 @@
-package org.loyaltyengine.couponservice.common.handlers;
+package org.loyaltyengine.couponservice.core.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.loyaltyengine.couponservice.common.exceptions.ApiException;
-import org.loyaltyengine.couponservice.common.exceptions.BadRequestException;
-import org.loyaltyengine.couponservice.common.exceptions.ConflictException;
-import org.loyaltyengine.couponservice.common.exceptions.NotFoundException;
+import org.loyaltyengine.couponservice.core.exceptions.ApiException;
+import org.loyaltyengine.couponservice.core.exceptions.BadRequestException;
+import org.loyaltyengine.couponservice.core.exceptions.ConflictException;
+import org.loyaltyengine.couponservice.core.exceptions.NotFoundException;
 import org.loyaltyengine.coupons.v1.model.ErrorDetail;
 import org.loyaltyengine.coupons.v1.model.ErrorResponse;
 import org.loyaltyengine.coupons.v1.model.ErrorType;
@@ -69,7 +69,8 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(ApiException e, HttpStatus status) {
-        log.error("API Exception caught: {}", e.getMessage(), e);
+        //log.error("API Exception caught: {}", e.getMessage(),e);
+        log.error("API Exception caught: {}", e.getMessage(),e);
         ErrorResponse errorResponse = new ErrorResponse()
                 .status(new Status().code(status.value()).message(e.getMessage()))
                 .error(e.getErrorType())
