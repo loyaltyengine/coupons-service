@@ -15,6 +15,9 @@ FROM eclipse-temurin:21-jre-alpine AS runner
 
 WORKDIR /app
 
+# Install curl
+RUN apk add --no-cache curl
+
 ARG JAR_FILE=./app/target/*.jar
 
 COPY --from=builder ${JAR_FILE} coupons-service.jar
